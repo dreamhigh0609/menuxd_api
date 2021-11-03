@@ -1,0 +1,2807 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API Para servir y administrar restaurantes\nhttps://devsstore.net\n[http://swagger.io](http://swagger.io) or on \n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n",
+    "version": "1.2.0",
+    "title": "MenuXD",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "http://104.248.75.235:5000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "description": "Retorna un token",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorizado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "id de usuario"
+                },
+                "token": {
+                  "type": "string",
+                  "description": "Cadena de texto con un token de autorización"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "description": "Retorna un arreglo con todos los usuarios",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "description": "Crea un nuevo usuario",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "Retorna un usuario por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un usuario.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza un usuario por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un usuario.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina un usuario por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un usuario.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/clients/": {
+      "post": {
+        "description": "Crea un nuevo client",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/clients/{id}": {
+      "get": {
+        "description": "Retorna un cliente por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza un cliente por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina un cliente por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/clients/user/{userId}": {
+      "get": {
+        "description": "Retorna un arreglo con todos los clientes",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID de usuario para todos sus clientes.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Client"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/orders/call/{clientId}/waiter": {
+      "get": {
+        "description": "Solicita al mozo.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "Client id",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/orders/": {
+      "post": {
+        "description": "Crea una nueva orden.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/orders/{id}": {
+      "put": {
+        "description": "Actualiza una Orden por su id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar una orden.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/orders/add/{id}/client/{clientId}": {
+      "put": {
+        "description": "Actualiza una Orden por su id agregando nuevos items.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la orden.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Item"
+              }
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/orders/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de ordenes por su client id",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/orders/active/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de ordenes activas por su client id.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/dishes/": {
+      "post": {
+        "description": "Crea un nuevo plato",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Dish"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/dishes/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de platos por su id",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Dish"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/dishes/suggested/{categoryId}": {
+      "get": {
+        "description": "Retorna un arreglo de platos sugeridos.",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID de categoria.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Dish"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/dishes/{id}": {
+      "get": {
+        "description": "Retorna un plato por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un plato.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Dish"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza un plato por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar un plato.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Dish"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina un plato por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para borrar un plato.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/dishes/client/{clientId}/dishes.json": {
+      "get": {
+        "description": "Retorna un archivo JSON con los platillos del cliente.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID del cliente para obtener los platillos.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Dish"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/tables/": {
+      "post": {
+        "description": "Crea un nueva mesa",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Table"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/tables/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de mesas por su id",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Table"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/tables/{id}": {
+      "get": {
+        "description": "Retorna una mesa por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener una mesa.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Table"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza una mesa por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar una mesa.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Table"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina una mesa por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para borrar una mesa.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/waiters/": {
+      "post": {
+        "description": "Crea un nuevo mozo",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Waiter"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/waiters/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de mozos por su id",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Waiter"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/waiters/{id}": {
+      "get": {
+        "description": "Retorna un mozo por su id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un mozo.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Waiter"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza un mozo por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar un mozo.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Waiter"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina un mozo por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para borrar un mozo.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/promotions/": {
+      "post": {
+        "description": "Crea una nueva promoción",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Promotion"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/promotions/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de promociones por su id.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Promotion"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/promotion/{id}": {
+      "get": {
+        "description": "Retorna una promoción por su id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener una promoción.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Promotion"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza una promoción por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar una promoción.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Promotion"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina una promoción por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para borrar una promoción.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/ads/": {
+      "post": {
+        "description": "Crea un nuevo anuncio",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Ad"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/ads/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de anuncios por su id.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Ad"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/ads/{id}": {
+      "get": {
+        "description": "Retorna un anuncio por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener un anuncio.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Ad"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza un anuncio por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar un anuncio.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Ad"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina una promoción por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para borrar un anuncio.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/ads/add-click/{id}": {
+      "put": {
+        "description": "Agrega un nuevo click al anuncio por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar un anuncio.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Click"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/categories/": {
+      "post": {
+        "description": "Crea una nueva categoria",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creado"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/categories/client/{clientId}": {
+      "get": {
+        "description": "Retorna un arreglo de categorias por su id",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/categories/client/{clientId}/drinks/": {
+      "get": {
+        "description": "Retorna un arreglo de bebidas por su client id",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID para único del cliente.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "description": "Retorna una categoría por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para obtener una categoría.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Actualiza una categoría por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para actualizar una categoría.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Elimina una categoría por su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID para borrar una categoría.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/categories/client/{clientId}/categories.json": {
+      "get": {
+        "description": "Retorna un archivo JSON con las categorias del cliente.",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "ID del cliente para obtener las categorias.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "email",
+        "role"
+      ],
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "email": {
+          "type": "string",
+          "example": "test@example.com"
+        },
+        "role": {
+          "type": "string",
+          "example": "admin"
+        },
+        "password": {
+          "type": "string",
+          "example": "Xd123456"
+        },
+        "image_url": {
+          "type": "string",
+          "example": "http://example.com/perfil.jpg"
+        },
+        "confirmed": {
+          "type": "boolean",
+          "example": true
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Client": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "name": {
+          "type": "string",
+          "example": "Pizza Star"
+        },
+        "user_id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "picture": {
+          "type": "string",
+          "example": "http://example.com/picture.png"
+        },
+        "expire_at": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Item": {
+      "type": "object",
+      "required": [
+        "order_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "order_id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "dish": {
+          "type": "object",
+          "properties": {}
+        },
+        "mount": {
+          "type": "number",
+          "example": 2.0
+        },
+        "takeaway": {
+          "type": "boolean",
+          "example": false
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Item"
+          }
+        },
+        "canceled": {
+          "type": "boolean",
+          "example": true
+        },
+        "table": {
+          "type": "object",
+          "properties": {}
+        },
+        "client_id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Dish": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "name": {
+          "type": "string",
+          "example": "Big burger"
+        },
+        "description": {
+          "type": "string"
+        },
+        "pictures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "price": {
+          "type": "number",
+          "example": 12.8
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "available": {
+          "type": "boolean",
+          "example": true
+        },
+        "suggested": {
+          "type": "boolean",
+          "example": false
+        },
+        "category": {
+          "type": "object",
+          "properties": {}
+        },
+        "client_id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Table": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "number": {
+          "type": "number",
+          "example": 10.0
+        },
+        "available": {
+          "type": "boolean",
+          "example": true
+        },
+        "type": {
+          "type": "string",
+          "example": "bar"
+        },
+        "client_id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Waiter": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "name": {
+          "type": "string",
+          "example": "max"
+        },
+        "pin": {
+          "type": "string",
+          "example": "1234"
+        },
+        "client_id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Promotion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "title": {
+          "type": "string",
+          "example": "2 x 1"
+        },
+        "description": {
+          "type": "string"
+        },
+        "dish_id": {
+          "type": "number",
+          "example": "true"
+        },
+        "client_id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "start_at": {
+          "type": "string"
+        },
+        "end_at": {
+          "type": "string"
+        },
+        "days": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Ad": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "picture": {
+          "type": "string",
+          "example": "http://example.com/picture.png"
+        },
+        "url": {
+          "type": "string",
+          "example": "http://example.com/mysite.com"
+        },
+        "click": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Click"
+          }
+        },
+        "client_id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Click": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "ad_id": {
+          "type": "number",
+          "example": 2.0
+        },
+        "date": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "Title": {
+          "type": "string",
+          "example": "Pasta"
+        },
+        "drink_type": {
+          "type": "number",
+          "example": 0.0
+        },
+        "picture": {
+          "type": "string",
+          "example": "http://example.com/picture.png"
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "position": {
+          "type": "number",
+          "example": 1.0
+        },
+        "client_id": {
+          "type": "number",
+          "example": 1.0
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "inline_response_200": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "id de usuario"
+        },
+        "token": {
+          "type": "string",
+          "description": "Cadena de texto con un token de autorización"
+        }
+      }
+    }
+  }
+}

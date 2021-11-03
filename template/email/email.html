@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+
+		hr {
+			border: 1px solid #eee;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.container {
+			width: 80%;
+			margin: 2rem auto;
+			padding: 3rem;
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		}
+
+		.logo {
+			width: 150px;
+			height: auto;
+			margin-bottom: 3rem;
+		}
+
+		.text {
+			color: #777;
+			font-size: 0.9rem;
+		}
+
+		.title {
+			font-size: 1.2rem;
+		}
+
+		.subtitle {
+			font-size: 1.1rem;
+			margin-top: 1.5rem;
+		}
+
+		.code {
+			border: none;
+			display: inline-block;
+			padding: 0.5rem 1rem;
+			border-radius: 1.5rem;
+			background-color: #ddd;
+		}
+
+		.list {
+			padding: 0;
+			margin-bottom: 4.5rem;
+		}
+
+		.list__item {
+			list-style-type: none;
+			margin-top: .5rem;
+		}
+
+		.button {
+			display: block;
+			margin: 1rem auto 0;
+			background-color: #FF006A;
+			cursor: pointer;
+			border: none;
+			padding: 1rem;
+			border-radius: 1.5rem;
+			font-weight: bold;
+			text-transform: uppercase;
+			color: #fff;
+			width: 12rem;
+			text-align: center;
+			transition: background-color .5s;
+		}
+
+		.button:visited {
+			color: #ccc;
+		}
+
+		.button:hover {
+			background-color: #BD004E;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<img class="logo" src="http://menuxd.com/img2/logo-1.png" alt="MenuXD Logo">
+		<hr>
+		<h1 class="title">{{.Subject}}</h1>
+		<p class="text">{{.Body}}</p>
+
+		<h2 class="subtitle">Contraseña temporal</h2>
+		<p class="code">{{.TempPassword}}</p>
+		<h2 class="subtitle">Pasos a seguir</h2>
+		<ol class="list">
+			<li class="text list__item">1. Hacer clic en el botón de <em>Ingresar ahora</em>.</li>
+			<li class="text list__item">2. Ingresar al sistema con su correo electrónico y contraseña temporal.</li>
+			<li class="text list__item">3. Ingresa a Perfil (esquina superior derecha) y establezca una nueva
+				contraseña.
+			</li>
+		</ol>
+
+		<a class="button" href="{{.BaseURL}}">Ingresar ahora</a>
+	</div>
+</body>
+
+</html>

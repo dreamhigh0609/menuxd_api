@@ -1,4 +1,4 @@
-module gitlab.com/menuxd/api-rest
+module github.com/super-radmir/menuxd_api
 
 go 1.12
 

@@ -60,6 +60,7 @@ func migration() error {
 		&dish.Dish{},
 		&dish.Ingredient{},
 		&promotion.Promotion{},
+		&promotion.Ingredient{},
 		&table.Table{},
 		&user.User{},
 		&waiter.Waiter{},

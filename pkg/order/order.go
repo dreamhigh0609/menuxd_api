@@ -43,6 +43,7 @@ type Item struct {
 	Active              bool                 `gorm:"default:true" json:"active"`
 	Ready               bool                 `gorm:"default:true" json:"ready"`
 	DishID              uint                 `json:"dish_id"`
+	PromotionID         uint                 `json:"promotion_id"`
 	Ingredients         []dish.Ingredient    `json:"ingredients"`
 	SelectedIngredients []IngredientSelected `json:"selected_ingredients"`
 	Dish                *dish.Dish           `json:"dish,omitempty"`

@@ -115,7 +115,6 @@ func (pr PromotionRouter) createHandler(w http.ResponseWriter, r *http.Request) 
 // updateHandler update a stored promotion by id.
 func (pr PromotionRouter) updateHandler(w http.ResponseWriter, r *http.Request) {
 	p := &promotion.Promotion{}
-
 	err := json.NewDecoder(r.Body).Decode(p)
 	if err != nil {
 		http.Error(w, "Failed to parse the promotion", http.StatusBadRequest)

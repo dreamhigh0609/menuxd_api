@@ -8,7 +8,6 @@ import (
 
 	"github.com/super-radmir/menuxd_api/pkg/click"
 	"github.com/super-radmir/menuxd_api/pkg/client"
-	"github.com/super-radmir/menuxd_api/pkg/dish"
 	"github.com/super-radmir/menuxd_api/pkg/model"
 )
 
@@ -27,15 +26,45 @@ type Storage interface {
 type Promotion struct {
 	model.Model
 	Title      string        `bson:"title" json:"title"`
-	Picture    string        `bson:"picture" json:"picture"`
+	Pictures   []string      `gorm:"-" bson:"pictures" json:"pictures,omitempty"`
+	PicturesString string    `gorm:"column:pictures" bson:"pictures" json:"pictures_string,omitempty"`
 	StartAt    string        `bson:"start_at" json:"start_at"`
 	EndAt      string        `bson:"end_at" json:"end_at"`
+	Description string       `bson:"description,omitempty" json:"description,omitempty"`
+	Price      float64       `bson:"price" json:"price"`
 	Days       []string      `gorm:"-" bson:"days" json:"days"`
+	Ingredients    []Ingredient `gorm:"-" json:"ingredients" json:"ingredients"`
 	DaysString string        `gorm:"column:days" bson:"days" json:"days_string,omitempty"`
-	DishID     uint          `bson:"dish_id" json:"dish_id"`
-	Dish       dish.Dish     `bson:"dish" json:"dish,omitempty"`
 	Clicks     []click.Click `bson:"clicks" json:"clicks"`
 	ClientID   uint          `bson:"client_id" json:"client_id"`
+}
+
+// Ingredient to the promotions.
+type Ingredient struct {
+	model.Model
+	PromotionID  uint    `json:"promotion_id"`
+	Price   float64 `json:"price"`
+	Name    string  `json:"name"`
+	OrderID *uint   `json:"order_id"`
+	Active  bool    `json:"active"`
+}
+
+// SetString split strings into slices.
+func SetString(arg []string) string {
+	if len(arg) >= 0 {
+		return strings.Join(arg, ",")
+	}
+
+	return ""
+}
+
+// SetSlice split strings into slices.
+func SetSlice(arg string) []string {
+	if arg != "" {
+		return strings.Split(arg, ",")
+	}
+
+	return []string{"", "", ""}
 }
 
 func getDate(timeStr string, current time.Time, loc *time.Location) (t time.Time, err error) {

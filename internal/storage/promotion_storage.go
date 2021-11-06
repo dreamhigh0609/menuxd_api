@@ -20,22 +20,31 @@ func (s *PromotionStorage) setContext() {
 	s.db = s.session.Client
 }
 
-// Create create a new Promotion
+// Create a new Promotion
 func (s PromotionStorage) Create(p *promotion.Promotion) error {
 	s.setContext()
 
-	if p.Title == "" ||
-		p.Picture == "" ||
-		p.DishID == 0 ||
+	if  p.Title == "" ||
+		p.Pictures[0] == "" ||
+		p.Price < 0 ||
 		p.StartAt == "" ||
 		p.EndAt == "" {
 		return ErrRequiredField
 	}
 
+	p.PicturesString = promotion.SetString(p.Pictures)
 	p.DaysString = promotion.SetDaysString(p.Days)
 	err := s.db.Create(p).Error
 	if err != nil {
 		return ErrNotInsert
+	}
+
+	for _, i := range p.Ingredients {
+		i.PromotionID = p.ID
+		err = s.db.Create(&i).Error
+		if err != nil {
+			return ErrNotInsert
+		}
 	}
 
 	return nil
@@ -46,8 +55,7 @@ func (s PromotionStorage) Update(id uint, p *promotion.Promotion) error {
 	s.setContext()
 
 	if p.Title == "" ||
-		p.Picture == "" ||
-		p.DishID == 0 ||
+		p.Pictures[0] == "" ||
 		p.StartAt == "" ||
 		p.EndAt == "" {
 		return ErrRequiredField
@@ -57,16 +65,51 @@ func (s PromotionStorage) Update(id uint, p *promotion.Promotion) error {
 
 	updates := map[string]interface{}{
 		"title":      p.Title,
-		"picture":    p.Picture,
+		"pictures":   p.Pictures,
+		"PicturesString": p.PicturesString,
 		"DaysString": p.DaysString,
-		"dish_id":    p.DishID,
+		"description":p.Description,
+		"price":      p.Price,
 		"start_at":   p.StartAt,
 		"end_at":     p.EndAt,
+		"ingredients":p.Ingredients,
+	}
+
+	iPictures, ok := updates["pictures"]
+	if ok {
+		i, ok := iPictures.([]string)
+		if !ok {
+			delete(updates, "PicturesString")
+			delete(updates, "pictures")
+		} else {
+			pictures := []string{}
+			for _, p := range i {
+				pictures = append(pictures, p)
+			}
+			updates["PicturesString"] = promotion.SetString(pictures)
+		}
 	}
 
 	err := s.db.Model(&promotion.Promotion{}).Where("id = ?", id).Updates(updates).Error
 	if err != nil {
 		return ErrNotUpdate
+	}
+
+	ingredients, ok := updates["ingredients"]
+
+	if ok {
+		ings, ok := ingredients.([]promotion.Ingredient)
+		if ok {
+			s.db.Delete(&promotion.Ingredient{}, "promotion_id = ?", id)
+			for _, i := range ings {
+				ing := promotion.Ingredient{}
+				ing.Active = i.Active
+				ing.Name = i.Name
+				ing.Price = i.Price
+				ing.PromotionID = id
+				s.db.Create(&ing)
+			}
+		}
 	}
 
 	return nil
@@ -118,13 +161,8 @@ func (s PromotionStorage) GetAll(clientID uint) (promotion.Promotions, error) {
 		if err != nil {
 			return []promotion.Promotion{}, ErrNotFound
 		}
-
-		var ds DishStorage
-		storedDish, err := ds.GetByID(promotions[i].DishID)
-		if err != nil {
-			continue
-		}
-		promotions[i].Dish = storedDish
+		promotions[i].Pictures = promotion.SetSlice(promotions[i].PicturesString)
+		s.db.Model(&promotions[i]).Related(&promotions[i].Ingredients)
 	}
 
 	return promotions, nil
@@ -153,6 +191,7 @@ func (s PromotionStorage) GetAllActive(clientID uint) (promotion.Promotions, err
 			p.DaysString = ""
 			result = append(result, p)
 		}
+		s.db.Model(&p).Related(&p.Ingredients)
 	}
 
 	return result, nil
@@ -177,9 +216,7 @@ func (s PromotionStorage) GetByID(id uint) (promotion.Promotion, error) {
 		return promotion.Promotion{}, ErrNotFound
 	}
 
-	var ds DishStorage
-	storedDish, _ := ds.GetByID(p.DishID)
-	p.Dish = storedDish
+	s.db.Model(&p).Related(&p.Ingredients)
 
 	return p, nil
 }

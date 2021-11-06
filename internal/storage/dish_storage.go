@@ -74,7 +74,6 @@ func (s DishStorage) CreateMany(clientID uint, d dish.Dishes) error {
 // Update update a dish by ID.
 func (s DishStorage) Update(id uint, updates map[string]interface{}) error {
 	s.setContext()
-
 	delete(updates, "client_id")
 
 	iPictures, ok := updates["pictures"]

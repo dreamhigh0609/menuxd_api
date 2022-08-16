@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/super-radmir/menuxd_api/pkg/promotion"
+	"github.com/super-radmir/menuxd_api/pkg/dish"
 )
 
 // PromotionRouter is a router of the promotions.
@@ -95,6 +96,19 @@ func (pr PromotionRouter) getOneHandler(w http.ResponseWriter, r *http.Request) 
 
 // createHandler Create a new promotion.
 func (pr PromotionRouter) createHandler(w http.ResponseWriter, r *http.Request) {
+	dr := &DishRouter{}
+	d := &dish.Dish{}
+	err_dish := json.NewDecoder(r.Body).Decode(d)
+	if err_dish != nil {
+		http.Error(w, "Failed to parse dish", http.StatusBadRequest)
+		return
+	}
+
+	err_dish = dr.storage.Create(d)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(http.StatusText(http.StatusOK)))
+
+//=========================================//
 	p := &promotion.Promotion{}
 	err := json.NewDecoder(r.Body).Decode(p)
 	if err != nil {
